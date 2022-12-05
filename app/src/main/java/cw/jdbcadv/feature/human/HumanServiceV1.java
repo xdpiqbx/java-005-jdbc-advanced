@@ -20,7 +20,7 @@ public class HumanServiceV1 {
                 if(rs.next()){
                     String name = rs.getString("name");
                     String birthday = rs.getString("birthday");
-                    System.out.println("name: "+name+" birthday: "+birthday);
+//                    System.out.println("name: "+name+" birthday: "+birthday);
                 }else{
                     System.out.println("Human not found");
                 }

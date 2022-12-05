@@ -1,0 +1,32 @@
+2022-12-05 07:39:01 database: flush
+org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The file is locked: D:/JAVA/GOIT/part-2-java-dev/ClassWork/java-005-jdbc-advanced/test.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:252)
+	at cw.jdbcadv.feature.storage.Storage.<init>(Storage.java:18)
+	at cw.jdbcadv.feature.storage.Storage.<clinit>(Storage.java:13)
+	at cw.jdbcadv.App.main(App.java:13)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "org.h2.mvstore.MVStoreException: The file is locked: D:/JAVA/GOIT/part-2-java-dev/ClassWork/java-005-jdbc-advanced/test.mv.db [2.1.214/7]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 20 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: D:/JAVA/GOIT/part-2-java-dev/ClassWork/java-005-jdbc-advanced/test.mv.db [2.1.214/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:178)
+	at org.h2.mvstore.FileStore.open(FileStore.java:128)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:452)
+	... 14 more

@@ -1,20 +1,43 @@
 package cw.jdbcadv;
 
 import cw.jdbcadv.feature.human.HumanServiceV1;
+import cw.jdbcadv.feature.human.HumanServiceV2;
+import cw.jdbcadv.feature.storage.DatabaseInitService;
 import cw.jdbcadv.feature.storage.Storage;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) throws SQLException {
         Storage storage = Storage.getInstance();
-//        new DatabaseInitService().initDb(storage);
-        HumanServiceV1 humanService = new HumanServiceV1(storage);
+        new DatabaseInitService().initDb(storage);
+
+        HumanServiceV1 humanServiceV1 = new HumanServiceV1(storage);
+//        HumanServiceV2 humanServiceV2 = new HumanServiceV2(storage);
+
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 100000; i++) {
+//            humanServiceV2.printHumanInfo(1);
+            humanServiceV1.printHumanInfo(1);
+        }
+        long duration = System.currentTimeMillis() - start;
+        System.out.println("duration = " + duration);
+
+
+//        boolean res = humanServiceV2.createNawHuman("Bogun", LocalDate.now().minusYears(40));
+//        System.out.println("res = " + res);
+
+//        List<Long> ids = humanServiceV2.getIds();
+//        ids.forEach(it -> humanServiceV2.printHumanInfo(it));
+
+//        HumanServiceV1 humanService = new HumanServiceV1(storage);
 //        humanService.createNewHuman("Valerii", LocalDate.now());
 //        humanService.createNewHuman("Volodymir", LocalDate.now());
 //        humanService.createNewHuman("Ares", LocalDate.now());
 //        humanService.printHumanInfo(3);
-        humanService.printHumanIds();
+//        humanService.printHumanIds();
 
 
 
