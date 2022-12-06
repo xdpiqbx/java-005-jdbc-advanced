@@ -1,5 +1,6 @@
 package cw.jdbcadv;
 
+import cw.jdbcadv.feature.human.HumanGenerator;
 import cw.jdbcadv.feature.human.HumanServiceV1;
 import cw.jdbcadv.feature.human.HumanServiceV2;
 import cw.jdbcadv.feature.storage.DatabaseInitService;
@@ -12,19 +13,31 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws SQLException {
         Storage storage = Storage.getInstance();
-        new DatabaseInitService().initDb(storage);
 
-        HumanServiceV1 humanServiceV1 = new HumanServiceV1(storage);
-//        HumanServiceV2 humanServiceV2 = new HumanServiceV2(storage);
+        HumanServiceV2 humanServiceV2 = new HumanServiceV2(storage);
+
+        int count = 100000;
+        HumanGenerator generator = new HumanGenerator();
+
+        String[] names = generator.generateNames(count);
+        LocalDate[] dates = generator.generateDates(count);
 
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 100000; i++) {
-//            humanServiceV2.printHumanInfo(1);
-            humanServiceV1.printHumanInfo(1);
+        for (int i = 0; i < count; i++) {
+            humanServiceV2.createNawHuman(names[i], dates[i]);
         }
         long duration = System.currentTimeMillis() - start;
         System.out.println("duration = " + duration);
 
+//        new DatabaseInitService().initDb(storage);
+
+//        HumanServiceV1 humanServiceV1 = new HumanServiceV1(storage);
+//        HumanServiceV2 humanServiceV2 = new HumanServiceV2(storage);
+
+//        for (int i = 0; i < 100000; i++) {
+//            humanServiceV2.printHumanInfo(1);
+//            humanServiceV1.printHumanInfo(1);
+//        }
 
 //        boolean res = humanServiceV2.createNawHuman("Bogun", LocalDate.now().minusYears(40));
 //        System.out.println("res = " + res);

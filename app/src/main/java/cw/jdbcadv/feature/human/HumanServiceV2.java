@@ -48,8 +48,15 @@ public class HumanServiceV2 {
         }
     }
 
-    public void createNewHumans(String[] names, LocalDate[] birthdays){
-
+    public void createNewHumans(String[] names, LocalDate[] birthdays) throws SQLException {
+        for (int i = 0; i < names.length; i++) {
+            String name = names[i];
+            LocalDate birthday = birthdays[i];
+            insertSt.setString(1, name);
+            insertSt.setString(2, birthday.toString());
+            insertSt.addBatch();
+        }
+        insertSt.executeBatch();
     }
 
     public boolean createNawHuman(String name, LocalDate birthday) {
