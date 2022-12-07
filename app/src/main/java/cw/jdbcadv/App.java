@@ -1,35 +1,55 @@
 package cw.jdbcadv;
 
 import cw.jdbcadv.feature.human.HumanGenerator;
-import cw.jdbcadv.feature.human.HumanServiceV1;
 import cw.jdbcadv.feature.human.HumanServiceV2;
 import cw.jdbcadv.feature.storage.DatabaseInitService;
 import cw.jdbcadv.feature.storage.Storage;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws SQLException {
-        Storage storage = Storage.getInstance();
 
+        Storage storage = Storage.getInstance();
+        new DatabaseInitService().initDb(storage);
         HumanServiceV2 humanServiceV2 = new HumanServiceV2(storage);
 
         int count = 100000;
-        HumanGenerator generator = new HumanGenerator();
 
+        HumanGenerator generator = new HumanGenerator();
         String[] names = generator.generateNames(count);
         LocalDate[] dates = generator.generateDates(count);
 
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < count; i++) {
-            humanServiceV2.createNawHuman(names[i], dates[i]);
-        }
-        long duration = System.currentTimeMillis() - start;
-        System.out.println("duration = " + duration);
+        humanServiceV2.createNewHumans(names, dates);
 
-//        new DatabaseInitService().initDb(storage);
+        Map<String, String> renameMap = new HashMap<>();
+        renameMap.put("John", "Ivan");
+        renameMap.put("Jennifer", "Olga");
+        renameMap.put("Bill", "Bogdan");
+
+//
+//        int chunkSize = 10;
+//        String[][] nameChunks = splitArr(names, chunkSize);
+//        LocalDate[][] datesChunks = splitArr(dates, chunkSize);
+//
+//        long start = System.currentTimeMillis();
+
+        // ********************************************************* вставка 100 000 по 10 000
+//        for (int i = 0; i < nameChunks.length; i++) {
+//            final String[] nameChunk = nameChunks[i];
+//            final LocalDate[] datesChunk = datesChunks[i];
+//            humanServiceV2.createNewHumans(nameChunk, datesChunk);
+//        }
+        // ********************************************************* вставка 100 000 по одному
+//        for (int i = 0; i < count; i++) {
+//            humanServiceV2.createNawHuman(names[i], dates[i]);
+//        }
+
+//        long duration = System.currentTimeMillis() - start;
+//        System.out.println("duration = " + duration);
 
 //        HumanServiceV1 humanServiceV1 = new HumanServiceV1(storage);
 //        HumanServiceV2 humanServiceV2 = new HumanServiceV2(storage);
@@ -58,6 +78,7 @@ public class App {
 //                "INSERT INTO human (name, birthday) VALUES ('%s', '%s')",
 //                "Musk", LocalDate.now()
 //        );
+
 //        storage.executeUpdate(insertSQL);
 //
 //        String selectSQL = "SELECT id, name, birthday FROM human WHERE id = 1";
@@ -75,5 +96,27 @@ public class App {
 //        }
 //        rs.close();
 //        st.close();
+    }
+    static String[][] splitArr(String[] arr, int chunkSize){
+        int chunkCount = arr.length / chunkSize;
+        String[][] result = new String[chunkCount][chunkSize];
+        int index = 0;
+        for (String[] currentChunk : result) {
+            for (int j = 0; j < chunkSize; j++) {
+                currentChunk[j] = arr[index++];
+            }
+        }
+        return result;
+    }
+    static LocalDate[][] splitArr(LocalDate[] arr, int chunkSize){
+        int chunkCount = arr.length / chunkSize;
+        LocalDate[][] result = new LocalDate[chunkCount][chunkSize];
+        int index = 0;
+        for (LocalDate[] currentChunk : result) {
+            for (int j = 0; j < chunkSize; j++) {
+                currentChunk[j] = arr[index++];
+            }
+        }
+        return result;
     }
 }

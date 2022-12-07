@@ -8,14 +8,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HumanServiceV2 {
-    private PreparedStatement insertSt;
-    private PreparedStatement selectByIdSt;
-    private PreparedStatement selectAllSt;
+    private Connection conn;
+    private final PreparedStatement insertSt;
+    private final PreparedStatement selectByIdSt;
+    private final PreparedStatement selectAllSt;
+    private final PreparedStatement renameSt;
+
     public HumanServiceV2(Storage storage) throws SQLException {
-        Connection conn = storage.getConnection();
+        conn = storage.getConnection();
 
         insertSt = conn.prepareStatement(
                 "INSERT INTO human (name, birthday) VALUES (?, ?)"
@@ -25,6 +30,9 @@ public class HumanServiceV2 {
         );
         selectAllSt = conn.prepareStatement(
                 "SELECT id FROM human"
+        );
+        renameSt = conn.prepareStatement(
+                "UPDATE human SET name=? WHERE name=?"
         );
     }
     public boolean printHumanInfo(long id){
@@ -79,5 +87,22 @@ public class HumanServiceV2 {
             throw new RuntimeException(e);
         }
         return result;
+    }
+    // ========= Transaction
+    public void rename(Map<String, String> renameMap) throws SQLException {
+        conn.setAutoCommit(false);
+        for (Map.Entry<String, String> keyVal : renameMap.entrySet()) {
+            renameSt.setString(1, keyVal.getKey());
+            renameSt.setString(2, keyVal.getKey());
+            renameSt.addBatch();
+        }
+        try {
+            renameSt.executeBatch();
+            conn.commit();
+        } catch (SQLException e) {
+            conn.rollback();
+        }finally {
+            conn.setAutoCommit(true);
+        }
     }
 }
