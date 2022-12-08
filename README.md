@@ -80,3 +80,9 @@ try {
     connection.setAutoCommit(true);
 }
 ```
+---
+
+## Хранимые процедуры
+
+[6.3 Using JDBC CallableStatements to Execute Stored Procedures](https://docs.oracle.com/cd/E17952_01/connector-j-5.1-en/connector-j-usagenotes-statements-callable.html)
+
