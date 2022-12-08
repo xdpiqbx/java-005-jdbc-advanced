@@ -86,3 +86,10 @@ try {
 
 [6.3 Using JDBC CallableStatements to Execute Stored Procedures](https://docs.oracle.com/cd/E17952_01/connector-j-5.1-en/connector-j-usagenotes-statements-callable.html)
 
+---
+
+## Міграції. Фреймворк Flyway
+
+[Flyway Core (maven)](https://mvnrepository.com/artifact/org.flywaydb/flyway-core)
+
+[Flyway Documentation](https://flywaydb.org/documentation/)

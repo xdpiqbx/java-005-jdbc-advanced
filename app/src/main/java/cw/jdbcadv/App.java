@@ -16,19 +16,19 @@ public class App {
         Storage storage = Storage.getInstance();
         new DatabaseInitService().initDb(storage);
         HumanServiceV2 humanServiceV2 = new HumanServiceV2(storage);
-
+//
         int count = 100000;
-
+//
         HumanGenerator generator = new HumanGenerator();
         String[] names = generator.generateNames(count);
         LocalDate[] dates = generator.generateDates(count);
+//
+//        humanServiceV2.createNewHumans(names, dates);
 
-        humanServiceV2.createNewHumans(names, dates);
-
-        Map<String, String> renameMap = new HashMap<>();
-        renameMap.put("John", "Ivan");
-        renameMap.put("Jennifer", "Olga");
-        renameMap.put("Bill", "Bogdan");
+//        Map<String, String> renameMap = new HashMap<>();
+//        renameMap.put("John", "Ivan");
+//        renameMap.put("Jennifer", "Olga");
+//        renameMap.put("Bill", "Bogdan");
 
 //
 //        int chunkSize = 10;
@@ -37,16 +37,16 @@ public class App {
 //
 //        long start = System.currentTimeMillis();
 
-        // ********************************************************* вставка 100 000 по 10 000
+
 //        for (int i = 0; i < nameChunks.length; i++) {
 //            final String[] nameChunk = nameChunks[i];
 //            final LocalDate[] datesChunk = datesChunks[i];
 //            humanServiceV2.createNewHumans(nameChunk, datesChunk);
 //        }
-        // ********************************************************* вставка 100 000 по одному
-//        for (int i = 0; i < count; i++) {
-//            humanServiceV2.createNawHuman(names[i], dates[i]);
-//        }
+
+        for (int i = 0; i < count; i++) {
+            humanServiceV2.createNawHuman(names[i], dates[i]);
+        }
 
 //        long duration = System.currentTimeMillis() - start;
 //        System.out.println("duration = " + duration);
